@@ -167,27 +167,25 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         ##Modello: predizioni per output
         for output in outputs:
             nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output)))
-            st.write(nome_modello)
-            if st.checkbox('Vai'):
-                dict=pickle.load(open(nome_modello, 'rb'))
-                alg=dict['Algorithm']
-                final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
-                final_df['{}_probA'.format(output)]=alg.predict_proba(final_df[input])[:,0]
-                final_df['{}_probB'.format(output)]=alg.predict_proba(final_df[input])[:,1]
-                final_df=final_df.dropna()
-    
-                st.title('Risultati per la giornata {}'.format(day_iter))
-                final_df=final_df.sort_values('{}_probA'.format(output_choice))
+            dict=pickle.load(open(nome_modello, 'rb'))
+            alg=dict['Algorithm']
+            final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
+            final_df['{}_probA'.format(output)]=alg.predict_proba(final_df[input])[:,0]
+            final_df['{}_probB'.format(output)]=alg.predict_proba(final_df[input])[:,1]
+            final_df=final_df.dropna()
+
+            st.title('Risultati per la giornata {}'.format(day_iter))
+            final_df=final_df.sort_values('{}_probA'.format(output_choice))
+            
+            st.write('\n:moneybag: Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
+            for ii in range(0,7):
+                sq=final_df['SQUADRA'].iloc[ii]
+                pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
+                prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
+                oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
+                st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {}'.format(sq,prob))
                 
-                st.write('\n:moneybag: Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
-                for ii in range(0,7):
-                    sq=final_df['SQUADRA'].iloc[ii]
-                    pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
-                    prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
-                    oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
-                    st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {}'.format(sq,prob))
-                    
-                df=pd.concat([df,final_df])
+            df=pd.concat([df,final_df])
     return(df)
 
 
