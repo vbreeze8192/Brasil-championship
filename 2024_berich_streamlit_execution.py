@@ -55,7 +55,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
     #UNISCI I DUE DF
     raw=pd.concat([temp_h, temp_a])
-    st.write('Ho fatto il dataset completo.')
+    st.write(':floppy_disk: Ho fatto il dataset completo. Ora estraggo i dati utili: squadre, pareggi, altre amenità.')
     #print(raw)
     #estrai lista delle squadre
     squadre=list(raw.groupby(['SQUADRA']).mean().index)
@@ -79,18 +79,18 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
     for col in [col_day, 'N_GOAL', 'D', 'HoA', year_col]:
         raw[col]=raw[col].astype(int)
 
-    st.write('Divido il dataset completo in anni prima e anno corrente.')
+    st.write(':calendar: Divido il dataset completo in anni prima e anno corrente.')
 
     df3yr=pd.DataFrame()
     for anno in anni:
         df3yr=pd.concat([df3yr,raw[raw[year_col]==anno]])
-    st.write('Nel passato ci sono queste squadre:')
+    st.write(':white_check_mark: Nel passato ci sono queste squadre:')
     st.markdown(list(df3yr.groupby(['SQUADRA']).mean().index))
 
     st.write('Righe degli anni prima: {}'.format(df3yr.shape[0]))
 
     #Metriche di campionato
-    st.write('Calcolo le metriche per la championship e per singola squadra.')
+    st.write(':trophy: Calcolo le metriche per la championship e per singola squadra.')
     [avg3yrch,avgdxd3yrch]=champions_metrics(df3yr,col_day=col_day)
     [nd3yrs,qtymax3yrs]=team_metrics(df3yr,squadre) 
 
@@ -106,7 +106,15 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
     
     df=pd.DataFrame()
-    st.write('Guardo i dati per giornata, ci metto qualche minuto!')
+    st.write('	:hourglass_flowing_sand: Guardo i dati per giornata. Potrebbe essere lunghetto. Vuoi sentire una barzelletta?')
+    if st.checkbox('Sì'):
+        barzz=['Mamma ha detto: Tesoro per favore vai al mercato e compra un litro di latte, se hanno le uova prendine sei. \
+        Al mio ritorno vedendomi con sei litri di latte mi chiede “ perché diavolo hai comprato sei litri di latte ? Ed io: avevano le uova',\
+               'Ci sono 10 tipi di persone al mondo; quelli che capiscono il codice binario, e quelli che non lo capiscono',\
+               'Quanti programmatori ci vogliono per avvitare una lampadina? Nessuno, è un problema hardware',\
+               'Hofinalmenteaggiustatolabarraspaziatrice',\
+               'Rebecca funziona!']
+        st.write(barzz[np.random.randint(5))
 
     nn=1
         #in che giorno nella riga
@@ -120,7 +128,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         print('Valuto la giornata {}'.format(day_iter))
         df_period=raw[raw[col_day]==day_iter] #il dataframe contiene il periodo da giornata 0 a adesso
         squadre_day=list(df_period.groupby(['SQUADRA']).mean().index)
-        st.write('In questa giornata ci sono queste squadre:')
+        st.write(':white_check_mark: In questa giornata ci sono queste squadre:')
         st.markdown(squadre_day)
         [avgnowch,avgdxdnowch]=champions_metrics(df_period,col_day=col_day)
         [ndnows,qtymaxnows]=team_metrics(df_period,squadre)
