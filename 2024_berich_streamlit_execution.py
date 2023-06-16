@@ -20,12 +20,12 @@ def download_excel(dftoexc,name_exc='Download_Excel'):
         dftoexc.to_excel(writer, sheet_name='Sheet1', index=False)
         # Close the Pandas Excel writer and output the Excel file to the buffer
         writer.save()
-    if st.download_button(
+    st.download_button(
     label="Download data as Excel",
     data=buffer,
     file_name='{}.xlsx'.format(name_exc),
-    mime='application/vnd.ms-excel'):
-        st.balloons()
+    mime='application/vnd.ms-excel')
+        
     
 def file_selector(folder_path='.'):
     filenames = os.listdir(folder_path)
@@ -253,5 +253,6 @@ uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
     st.write(':leaves:')
     final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
-    download_excel(final_df)
+    download_excel(final_df,name_exc='Prediction_Day{}'.format(day))
+    st.balloons()
 
