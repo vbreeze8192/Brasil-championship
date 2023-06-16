@@ -147,7 +147,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         final_df=pd.DataFrame()
         int_df=pd.DataFrame()
         print('Valuto la giornata {}'.format(day_iter))
-        df_period=raw[raw[col_day]==day_iter] #il dataframe contiene il periodo da giornata 0 a adesso
+        df_period=raw[raw[col_day]<=day_iter] #il dataframe contiene il periodo da giornata 0 a adesso
         squadre_day=list(df_period.groupby(['SQUADRA']).mean().index)
         st.write(':white_check_mark: In questa giornata ci sono queste squadre:')
         st.markdown(squadre_day)
