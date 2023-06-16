@@ -106,15 +106,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
     
     df=pd.DataFrame()
-    st.write('	:hourglass_flowing_sand: Guardo i dati per giornata. Potrebbe essere lunghetto. Vuoi sentire una barzelletta?')
-    if st.checkbox('Sì'):
-        barzz=['Mamma ha detto: Tesoro per favore vai al mercato e compra un litro di latte, se hanno le uova prendine sei. \
-        Al mio ritorno vedendomi con sei litri di latte mi chiede “ perché diavolo hai comprato sei litri di latte ? Ed io: avevano le uova',\
-               'Ci sono 10 tipi di persone al mondo; quelli che capiscono il codice binario, e quelli che non lo capiscono',\
-               'Quanti programmatori ci vogliono per avvitare una lampadina? Nessuno, è un problema hardware',\
-               'Hofinalmenteaggiustatolabarraspaziatrice',\
-               'Rebecca funziona!']
-        st.write(barzz[np.random.randint(5)])
+    st.write('	:hourglass_flowing_sand: Guardo i dati per giornata...')
 
     nn=1
         #in che giorno nella riga
