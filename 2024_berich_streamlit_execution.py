@@ -261,7 +261,7 @@ col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res'
 
 output_select = st.radio(
     "Su quanti giorni vuoi prevedere la cumulata dei pareggi?",
-    ('1','2','4'))
+    ('1','2','3','4'))
 
 output_choice = 'D_in_{}iter'.format(output_select)
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
