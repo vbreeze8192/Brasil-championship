@@ -176,14 +176,22 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.title('Risultati per la giornata {}'.format(day_iter))
         final_df=final_df.sort_values('{}_probA'.format(output_choice))
         
-        st.write('\n:moneybag: Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
+        st.write('Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
         for ii in range(0,7):
             sq=final_df['SQUADRA'].iloc[ii]
             pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
             oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,1)))
-            
+
+
+        st.write('Valutando {}, non investire su: :sloth:'.format(output_choice,day_iter))
+        for ii in range(1,7):
+            sq=final_df['SQUADRA'].iloc[-ii]
+            pred=final_df['{}_pred'.format(output_choice)].iloc[-ii]
+            prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
+            oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,1)))
         df=pd.concat([df,final_df])
     return(df)
 
