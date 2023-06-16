@@ -166,8 +166,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         
         ##Modello: predizioni per output
         for output in outputs:
-            file_selector()
-            nome_modello=r'Modello_{}'.format(output)
+            #nome_modello=file_selector()
+            nome_modello='Modello_{}'.format(output)
             dict=pickle.load(open(nome_modello, 'rb'))
             alg=dict['Algorithm']
             final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
