@@ -140,7 +140,17 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.write(':white_check_mark: In questa giornata ci sono queste squadre:')
         st.markdown(squadre_day)
         [avgnowch,avgdxdnowch]=champions_metrics(df_period,col_day=col_day)
-        [ndnows,qtymaxnows]=team_metrics(df_period,squadre)
+        qty=pd.DataFrame(index=anni)
+        ndr=pd.DataFrame(index=anni)
+        for anno in anni:
+            temp=df3yr[df3yr[year_col]==anno]
+            [ndt,qtyt]=team_metrics(temp,squadre)
+    
+            ndt=ndt.reset_index()
+            qtyt=qtyt.reset_index()
+            qtyt=qtyt.rename(columns={"index": "SQUADRA"})
+            qty=pd.concat([qty,qtyt]) #concateno anno su anno
+            ndr=pd.concat([ndr,ndt])
 
         for squadra in squadre_day:
 
