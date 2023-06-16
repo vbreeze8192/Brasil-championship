@@ -218,7 +218,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 ###MAIN###
 st.title('Brasile 2023')
 
-st.subheader("""Cosa vorresti prevedere? Il modello è allenato per il periodo 2012-2022 della championship del Brasile.""")
+st.subheader("""Cosa vorresti prevedere?""")
+st.write('Il modello è allenato per il periodo 2012-2022 della championship del Brasile.')
 #uploaded_file = st.file_uploader("Upload Excel to explore", type=".xlsx")
 #path=os.getcwd()
 
