@@ -219,7 +219,7 @@ col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res'
 
 output_choice = st.selectbox(
     'Per ora possiamo prevedere solo la probabilità di pareggio nelle prossime 4 partite.',
-    (('D_in_4iter'))
+    ('D_in_4iter'))
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
 st.write('Hai selezionato', output_choice)
 outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
