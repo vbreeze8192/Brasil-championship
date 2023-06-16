@@ -207,7 +207,7 @@ end_year=st.text_input("Anno finale del dataset completo",2022)
 end_year=int(end_year)
 anno_val=st.text_input("Anno in corso",2023)
 anno_val=int(anno_val)
-day=st.text_input('Giornata che si vuole predire','NA')
+day=st.text_input('Giornata che si vuole predire',10)
 day=int(day)
 #Campionato brasile. Un anno per ogni foglio
 #Alleno su tutti gli anni, passando tutti gli anni sia per la media che per la predizione. 
