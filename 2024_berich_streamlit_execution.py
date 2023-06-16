@@ -1,20 +1,9 @@
 #Data analysis
-import pdb
 import pandas as pd
-import os
-import matplotlib.pyplot as plt    
-import seaborn as sns
 import pickle 
 import numpy as np
 from datetime import datetime, date,timedelta
 import streamlit as st
-
-#General
-from os import walk
-from joblib import dump, load
-import warnings
-warnings.filterwarnings('ignore')
-warnings.simplefilter('ignore')
 
 #custom functions
 from BeRichFunctions import bestclassifier,bestregressor,train,save_pickle,team_metrics,champions_metrics,d_in_future, confMatrix
