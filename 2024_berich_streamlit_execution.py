@@ -262,9 +262,8 @@ output_select = st.radio(
     ('1','2','4'))
 
 output_choice = 'D_in_{}iter'.format(output_select)
-st.write('Per ora possiamo prevedere solo la probabilità di pareggio nelle prossime 4 partite.')
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
-st.write('Prevediamo su ', output_choice)
+st.write('Il modello prevede la probabilità che una squadra faccia almeno un pareggio nelle prossime {} giornate.'.format(output_select))
 outputs=['D_in_4iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
