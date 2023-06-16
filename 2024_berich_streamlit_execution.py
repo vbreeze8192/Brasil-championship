@@ -188,7 +188,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             int_df=pd.concat([int_df,line_team])
 
         final_df=int_df[int_df[col_day]==day_iter] #final df contiene la sola riga del giorno x
-        st.write('Ecco il dataset su cui faccio previsioni.')
+        final_df=final_df.fillna(0)
+        st.write('Ecco il dataset su cui faccio previsioni. Ho riempito i valori nulli con 0.')
         download_excel(final_df,'Pre-trained_dataset_Day{}'.format(day))
 
 
