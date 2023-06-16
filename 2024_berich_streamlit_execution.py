@@ -257,11 +257,15 @@ anni=[*range(start_year,end_year+1)] #esclude 'l'ultimo anno
 #col_raw=['Giornata','Date','Time','HomeTeam','AwayTeam','FTHG','FTAG','FTR']
 col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res']
 
-output_choice = 'D_in_4iter'
+output_select = st.radio(
+    "Su quanti giorni vuoi prevedere la cumulata dei pareggi?",
+    ('1','2','4'))
+
+output_choice = 'D_in_{}iter'.format(output_select)
 st.write('Per ora possiamo prevedere solo la probabilità di pareggio nelle prossime 4 partite.')
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
 st.write('Prevediamo su ', output_choice)
-outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
+outputs=['D_in_4iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
 if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
