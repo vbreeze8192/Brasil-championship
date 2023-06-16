@@ -122,7 +122,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         qty=pd.concat([qty,qtyt]) #concateno anno su anno
         ndr=pd.concat([ndr,ndt])
     nd3yrs=ndr.groupby('SQUADRA').mean() #questo dovrebbe fare la media per squadra
-    qtymax3yrs=qty.groupby('SQUADRA').mean() 
+    qtymax3yrs=qty.groupby('SQUADRA').mean()
     #raw è la rappresentazione dell'anno in corso. 
     #sul singolo anno di validazione, valuta sia i gol nel futuro veri, sia la predizione fatta dal modello. 
 
@@ -147,7 +147,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         final_df=pd.DataFrame()
         int_df=pd.DataFrame()
         print('Valuto la giornata {}'.format(day_iter))
-        df_period=raw[raw[col_day]==day_iter] #il dataframe contiene il periodo da giornata 0 a adesso
+        df_period=raw[raw[col_day]<=day_iter] #il dataframe contiene il periodo da giornata 0 a adesso
         squadre_day=list(df_period.groupby(['SQUADRA']).mean().index)
         st.write(':white_check_mark: In questa giornata ci sono queste squadre:')
         st.markdown(squadre_day)
@@ -188,7 +188,9 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             int_df=pd.concat([int_df,line_team])
 
         final_df=int_df[int_df[col_day]==day_iter] #final df contiene la sola riga del giorno x
-
+        final_df=final_df.fillna(0)
+        st.write('Ecco il dataset su cui faccio previsioni. Ho riempito i valori nulli con 0.')
+        download_excel(final_df,'Pre-trained_dataset_Day{}'.format(day))
 
 
 
@@ -216,7 +218,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
         st.write("___________________________________________")
         st.write('Valutando {}, le squadre con meno probabilità di pareggiare nella giornata {} sono: :sloth:'.format(output_choice,day_iter))
-        for ii in range(7,0):
+        for ii in range(0,7):
             sq=final_df['SQUADRA'].iloc[-ii]
             pred=final_df['{}_pred'.format(output_choice)].iloc[-ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
@@ -257,11 +259,14 @@ anni=[*range(start_year,end_year+1)] #esclude 'l'ultimo anno
 #col_raw=['Giornata','Date','Time','HomeTeam','AwayTeam','FTHG','FTAG','FTR']
 col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res']
 
-output_choice = 'D_in_4iter'
-st.write('Per ora possiamo prevedere solo la probabilità di pareggio nelle prossime 4 partite.')
+output_select = st.radio(
+    "Su quanti giorni vuoi prevedere la cumulata dei pareggi?",
+    ('1','2','4'))
+
+output_choice = 'D_in_{}iter'.format(output_select)
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
-st.write('Prevediamo su ', output_choice)
-outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
+st.write('Il modello prevede la probabilità che una squadra faccia almeno un pareggio nelle prossime {} giornate.'.format(output_select))
+outputs=['D_in_4iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
 if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
