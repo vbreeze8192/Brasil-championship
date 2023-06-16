@@ -122,7 +122,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         qty=pd.concat([qty,qtyt]) #concateno anno su anno
         ndr=pd.concat([ndr,ndt])
     nd3yrs=ndr.groupby('SQUADRA').mean() #questo dovrebbe fare la media per squadra
-    qtymax3yrs=qty.groupby('SQUADRA').mean() 
+    qtymax3yrs=qty.groupby('SQUADRA').mean()
     #raw è la rappresentazione dell'anno in corso. 
     #sul singolo anno di validazione, valuta sia i gol nel futuro veri, sia la predizione fatta dal modello. 
 
@@ -188,7 +188,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             int_df=pd.concat([int_df,line_team])
 
         final_df=int_df[int_df[col_day]==day_iter] #final df contiene la sola riga del giorno x
-
+        st.write(final_df.head())
 
 
 
