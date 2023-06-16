@@ -223,7 +223,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             pred=final_df['{}_pred'.format(output_choice)].iloc[-ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
             oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
-            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,2)))
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100,3)))
         df=pd.concat([df,final_df])
         
     return(df)
