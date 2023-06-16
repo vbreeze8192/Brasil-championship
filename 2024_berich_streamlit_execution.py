@@ -229,5 +229,3 @@ if st.button('Prevedi for Braaasil',disabled=not uploaded_file):
     st.write(':leaves:')
     final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
 
-if uploaded_file:
-    if st.checkbox('Prevedi, idiota'):
