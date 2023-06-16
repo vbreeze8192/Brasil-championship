@@ -16,7 +16,7 @@ def file_selector(folder_path='.'):
 
 
 
-def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice,model_path,day='NA'):
+def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice,day='NA'):
     input=['AVG_D_3Y_CH',\
             'AVG_D_N_CH',\
             'AVG_ND_3Y_S',\
@@ -166,7 +166,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         ##Modello: predizioni per output
         for output in outputs:
 
-            nome_modello=r'{}\Modello_{}'.format(model_path,output)
+            nome_modello=r'Modello_{}'.format(output)
             dict=pickle.load(open(nome_modello, 'rb'))
             alg=dict['Algorithm']
             final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
@@ -196,8 +196,7 @@ st.title('Testamelo')
 st.subheader(""" Inserisci tutto quanto! """)
 #uploaded_file = st.file_uploader("Upload Excel to explore", type=".xlsx")
 #path=os.getcwd()
-path=r'C:\Users\Mipu_10\Desktop\BR'
-model_path = st.text_input("Percorso in cui sono i modelli", path)
+
 #name = st.text_input("Nome e percorso del file", 'BRA_2012-2022hst_2023og_xVERO.xlsx')
 year_col = st.text_input("Nome della colonna dell'anno", 'Season')
 col_day = st.text_input("Nome della colonna della giornata", 'giornata')
@@ -230,6 +229,6 @@ uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
 if st.checkbox('Prevedi, idiota'):
     st.write('Ora ci penso...')
-    final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,outputs,output_choice,model_path,day)
+    final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,outputs,output_choice,day)
 
 
