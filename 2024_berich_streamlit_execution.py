@@ -225,7 +225,7 @@ output_choice = st.selectbox(
 st.write('You selected:', output_choice)
 outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
-
+file_selector()
 if uploaded_file:
     if st.checkbox('Prevedi, idiota'):
         st.write(':leaves:')
