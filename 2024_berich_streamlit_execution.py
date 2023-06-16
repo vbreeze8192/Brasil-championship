@@ -1,5 +1,6 @@
 #Data analysis
 import os
+import io
 import pandas as pd
 import pickle 
 import numpy as np
@@ -10,6 +11,22 @@ import streamlit as st
 from BeRichFunctions import bestclassifier,train,save_pickle,team_metrics,champions_metrics,d_in_future, confMatrix
 
 #
+def download_excel(dftoexc,name_exc='Download_Excel'):
+    # buffer to use for excel writer
+    buffer = io.BytesIO()
+    st.write(dftoexc)
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        # Write each dataframe to a different worksheet.
+        dftoexc.to_excel(writer, sheet_name='Sheet1', index=False)
+        # Close the Pandas Excel writer and output the Excel file to the buffer
+        writer.save()
+    if st.download_button(
+    label="Download data as Excel",
+    data=buffer,
+    file_name='{}.xlsx'.format(name_exc),
+    mime='application/vnd.ms-excel'):
+        st.balloons()
+    
 def file_selector(folder_path='.'):
     filenames = os.listdir(folder_path)
     selected_filename = st.selectbox('Select a file', filenames)
@@ -193,7 +210,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,2)))
         df=pd.concat([df,final_df])
-        st.balloons()
+        
     return(df)
 
 
@@ -236,4 +253,5 @@ uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
     st.write(':leaves:')
     final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
+    download_excel(final_df)
 
