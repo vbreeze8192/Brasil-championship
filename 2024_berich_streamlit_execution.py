@@ -214,7 +214,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
             oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
-            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,2)))
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
 
         st.write("___________________________________________")
         st.write('Valutando {}, le squadre con meno probabilità di pareggiare nella giornata {} sono: :sloth:'.format(output_choice,day_iter))
@@ -223,7 +223,10 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             pred=final_df['{}_pred'.format(output_choice)].iloc[-ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
             oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
-            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,2)))
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
+        st.write('___________________________________________')
+        if final_df['{}_probB'.format(output_choice)].mean()==1:
+            st.write('Mah, ste probabilità so tutte uguali. Grazie al c:sparkles:...')
         df=pd.concat([df,final_df])
         
     return(df)
@@ -261,7 +264,7 @@ col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res'
 
 output_select = st.radio(
     "Su quanti giorni vuoi prevedere la cumulata dei pareggi?",
-    ('1','2','4'))
+    ('1','2','3','4'))
 
 output_choice = 'D_in_{}iter'.format(output_select)
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
@@ -272,7 +275,7 @@ uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
     st.write(':leaves:')
     final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
-    st.write('___________________________________________')
+    
     st.write('Ecco i dati completi per la giornata {}.'.format(day))
     download_excel(final_df,name_exc='Prediction_Day{}'.format(day))
     st.balloons()
