@@ -17,7 +17,7 @@ def file_selector(folder_path='.'):
 
 
 
-def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice,day='NA'):
+def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA'):
     input=['AVG_D_3Y_CH',\
             'AVG_D_N_CH',\
             'AVG_ND_3Y_S',\
@@ -165,27 +165,26 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         st.write("\n:robot_face: It's some kind of magic - Let's do AI! :robot_face:")
         
         ##Modello: predizioni per output
-        for output in outputs:
-            nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output)))
-            dict=pickle.load(open(nome_modello, 'rb'))
-            alg=dict['Algorithm']
-            final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
-            final_df['{}_probA'.format(output)]=alg.predict_proba(final_df[input])[:,0]
-            final_df['{}_probB'.format(output)]=alg.predict_proba(final_df[input])[:,1]
-            final_df=final_df.dropna()
+        nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output_choice)))
+        dict=pickle.load(open(nome_modello, 'rb'))
+        alg=dict['Algorithm']
+        final_df['{}_pred'.format(output_choice)]=alg.predict(final_df[input])
+        final_df['{}_probA'.format(output_choice)]=alg.predict_proba(final_df[input])[:,0]
+        final_df['{}_probB'.format(output_choice)]=alg.predict_proba(final_df[input])[:,1]
+        final_df=final_df.dropna()
 
-            st.title('Risultati per la giornata {}'.format(day_iter))
-            final_df=final_df.sort_values('{}_probA'.format(output_choice))
+        st.title('Risultati per la giornata {}'.format(day_iter))
+        final_df=final_df.sort_values('{}_probA'.format(output_choice))
+        
+        st.write('\n:moneybag: Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
+        for ii in range(0,7):
+            sq=final_df['SQUADRA'].iloc[ii]
+            pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
+            prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
+            oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {}'.format(sq,prob))
             
-            st.write('\n:moneybag: Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
-            for ii in range(0,7):
-                sq=final_df['SQUADRA'].iloc[ii]
-                pred=final_df['{}_pred'.format(output_choice)].iloc[ii]
-                prob=final_df['{}_probB'.format(output_choice)].iloc[ii]
-                oth=final_df['{}_probA'.format(output_choice)].iloc[ii]
-                st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {}'.format(sq,prob))
-                
-            df=pd.concat([df,final_df])
+        df=pd.concat([df,final_df])
     return(df)
 
 
@@ -217,18 +216,18 @@ anni=[*range(start_year,end_year+1)] #esclude 'l'ultimo anno
 
 #col_raw=['Giornata','Date','Time','HomeTeam','AwayTeam','FTHG','FTAG','FTR']
 col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res']
-output_choice='D_in_1iter'
-output_choice = st.selectbox(
-    'Cosa prediciamo?',
-    ('D_in_1iter', 'D_in_2iter', 'D_in_3iter','D_in_4iter'))
 
-st.write('You selected:', output_choice)
+output_choice = st.selectbox(
+    'Per ora possiamo prevedere solo la probabilità di pareggio nelle prossime 4 partite.',
+    (('D_in_4iter'))
+#'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
+st.write('Hai selezionato', output_choice)
 outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
+if st.button('Prevedi for Braaasil',disabled=not uploaded_file):
+    st.write(':leaves:')
+    final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
+
 if uploaded_file:
     if st.checkbox('Prevedi, idiota'):
-        st.write(':leaves:')
-        final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,outputs,output_choice,day)
-
-
