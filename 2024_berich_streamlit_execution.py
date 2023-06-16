@@ -224,7 +224,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
             oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
-            st.write('___________________________________________')
+        st.write('___________________________________________')
         if final_df['{}_probB'.format(output_choice)].mean()==1:
             st.write('Mah, ste probabilità so tutte uguali. Grazie al c:sparkles:...')
         df=pd.concat([df,final_df])
