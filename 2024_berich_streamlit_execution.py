@@ -224,7 +224,7 @@ st.write('Prevediamo su ', output_choice)
 outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
-if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary):
+if st.button('Prevedi for Braaasil',disabled=not uploaded_file, type='primary'):
     st.write(':leaves:')
     final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,output_choice,day)
 
