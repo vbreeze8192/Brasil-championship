@@ -193,6 +193,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             oth=final_df['{}_probA'.format(output_choice)].iloc[-ii]
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.round(prob*100,2)))
         df=pd.concat([df,final_df])
+        st.balloons()
     return(df)
 
 
