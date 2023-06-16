@@ -168,7 +168,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         for output in outputs:
             nome_modello=file_selector()
             #nome_modello='Modello_{}'.format(output)
-            st.checkbox('Vai'):
+            if st.checkbox('Vai'):
                 dict=pickle.load(open(nome_modello, 'rb'))
                 alg=dict['Algorithm']
                 final_df['{}_pred'.format(output)]=alg.predict(final_df[input])
