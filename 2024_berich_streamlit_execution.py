@@ -166,7 +166,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             line_team[input[1]]=avgnowch
             try:
                 #Media di non pari negli ultimi 3 anni per squadra
-                line_team[input[2]]=nd3yrs.loc[squadra]
+                line_team[input[2]]=nd3yrs.loc[squadra].values[0]
             except Exception as e:
                 st.write("Sto avendo problemi con la squadra {}. Forse non c'era nel training, oppure l'hai scritto male!".format(squadra))
 
