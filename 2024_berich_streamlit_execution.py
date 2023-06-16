@@ -6,7 +6,7 @@ from datetime import datetime, date,timedelta
 import streamlit as st
 
 #custom functions
-from BeRichFunctions import bestclassifier,bestregressor,train,save_pickle,team_metrics,champions_metrics,d_in_future, confMatrix
+from BeRichFunctions import bestclassifier,train,save_pickle,team_metrics,champions_metrics,d_in_future, confMatrix
 
 #
 def file_selector(folder_path='.'):
