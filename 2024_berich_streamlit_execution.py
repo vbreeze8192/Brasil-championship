@@ -166,7 +166,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,outputs,output_choice
         
         ##Modello: predizioni per output
         for output in outputs:
-            nome_modello= os.path.join(os.listdir(folder_path), 'Modello_{}'.format(output))
+            nome_modello= os.path.join(os.listdir('.'), 'Modello_{}'.format(output))
             st.write(nome_modello)
             if st.checkbox('Vai'):
                 dict=pickle.load(open(nome_modello, 'rb'))
