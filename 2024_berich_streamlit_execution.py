@@ -109,8 +109,20 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
     #Metriche di campionato
     st.write(':trophy: Calcolo le metriche per la championship e per singola squadra.')
     [avg3yrch,avgdxd3yrch]=champions_metrics(df3yr,col_day=col_day)
-    [nd3yrs,qtymax3yrs]=team_metrics(df3yr,squadre) 
+    #[nd3yrs,qtymax3yrs]=team_metrics(df3yr,squadre) 
+    qty=pd.DataFrame(index=anni)
+    ndr=pd.DataFrame(index=anni)
+    for anno in anni:
+        temp=df3yr[df3yr[year_col]==anno]
+        [ndt,qtyt]=team_metrics(temp,squadre)
 
+        ndt=ndt.reset_index()
+        qtyt=qtyt.reset_index()
+        qtyt=qtyt.rename(columns={"index": "SQUADRA"})
+        qty=pd.concat([qty,qtyt]) #concateno anno su anno
+        ndr=pd.concat([ndr,ndt])
+    nd3yrs=ndr.groupby('SQUADRA').mean() #questo dovrebbe fare la media per squadra
+    qtymax3yrs=qty.groupby('SQUADRA').mean() 
     #raw è la rappresentazione dell'anno in corso. 
     #sul singolo anno di validazione, valuta sia i gol nel futuro veri, sia la predizione fatta dal modello. 
 
@@ -140,17 +152,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.write(':white_check_mark: In questa giornata ci sono queste squadre:')
         st.markdown(squadre_day)
         [avgnowch,avgdxdnowch]=champions_metrics(df_period,col_day=col_day)
-        qty=pd.DataFrame(index=anni)
-        ndr=pd.DataFrame(index=anni)
-        for anno in anni:
-            temp=df3yr[df3yr[year_col]==anno]
-            [ndt,qtyt]=team_metrics(temp,squadre)
-    
-            ndt=ndt.reset_index()
-            qtyt=qtyt.reset_index()
-            qtyt=qtyt.rename(columns={"index": "SQUADRA"})
-            qty=pd.concat([qty,qtyt]) #concateno anno su anno
-            ndr=pd.concat([ndr,ndt])
+        [ndnows,qtymaxnows]=team_metrics(df_period,squadre)
+
 
         for squadra in squadre_day:
 
