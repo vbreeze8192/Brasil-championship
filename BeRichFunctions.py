@@ -1,47 +1,29 @@
 #Data analysis
-import pdb
 import pandas as pd
 import os
-import matplotlib.pyplot as plt    
-import seaborn as sns
 import pickle 
 import numpy as np
-from datetime import datetime, date,timedelta
 
 #Modeling
 from sklearn.neural_network import MLPRegressor
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedShuffleSplit, RandomizedSearchCV
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import RandomForestClassifier
 
 from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.ensemble import ExtraTreesClassifier
-from scipy.stats import randint
-from xgboost import XGBRegressor
-from xgboost import XGBClassifier
+
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, ConfusionMatrixDisplay
-from sklearn.metrics import r2_score, mean_squared_error
-
-
-# Tree Visualisation
-from sklearn.tree import export_graphviz
-from IPython import display
-from IPython.display import Image
-import graphviz
-
-
-#General
-from os import walk
-from joblib import dump, load
+from sklearn.metrics import accuracy_score, confusion_matrix,ConfusionMatrixDisplay
+from sklearn.metrics import r2_score
 
 
 
 #Funzioni per allenare il modello 
 def rfc(X_train, y_train,X_test,y_test):
-    param_dist = {'n_estimators': randint(50,500),
-            'max_depth': randint(1,20)}
+    param_dist = {'n_estimators': np.random.randint(50,high=500),
+            'max_depth': np.random.randint(1,high=20)}
 
     # Create a random forest classifier
     rf = RandomForestClassifier()
@@ -127,89 +109,6 @@ def bestclassifier(X_train, y_train,X_test,y_test,gridsearch=True):
 
     
 
-
-def probclassifier(X_train, y_train,X_test,y_test,gridsearch=True):
-
-    """Finds the best pipeline for the data provided with xgboost and logistic regression obj, using gridsearch or randomizedsearch""" 
-    # Initialize the estimators
-    #clf1=ExtraTreesClassifier(random_state=42)
-    #clf2 = RandomForestClassifier(random_state=42)
-    clf3=XGBClassifier(random_state=42,gamma=0,scale_pos_weight=1,validation_fraction=0.1,objective='binary:logistic')
-    
-    #Algorithm settings
-    #settings1={'classifier__n_estimators':[50,100,150,200],'classifier__max_depth':[3,4], 'classifier__min_samples_split':[3, 5, 7],'classifier':[clf1]}
-    #settings2 = {'classifier__n_estimators':[40,50,70,80,100], 'classifier__max_depth':[3,4], 'classifier__min_samples_split':[3, 5, 7],'classifier':[clf2]}
-    settings3 = {'classifier__max_depth':[2,3,5], 'classifier__min_child_weight':[2,3,5],'classifier__n_estimators':[50,100,150],\
-        'classifier__learning_rate':[0.5,0.2,0.1,0.05],'classifier':[clf3]}
-
-    #Final pipeline
-    params = [settings3]
-    pipe = Pipeline([\
-        ('scl', StandardScaler()),\
-        ('classifier', clf3)])
-
-    #Model search
-    if gridsearch==True:
-        #With gridsearch:
-        gs=GridSearchCV(pipe, params, cv=3, n_jobs=-1, scoring='f1',verbose=-1).fit(X_train, y_train)
-    else:
-        #With Random search:
-        gs=RandomizedSearchCV(pipe, params, cv=3, n_jobs=-1, scoring='f1_score',verbose=-1).fit(X_train, y_train)
-    
-    print('Found best estimator')
-    my_params = gs.best_params_
-    print('Best algorithm:\n', gs.best_params_['classifier'])
-    print('Best params:\n', gs.best_params_)
-    alg=gs.best_estimator_
-    prediction = gs.predict(X_test)
-    print('GridSearchCV accuracy:\n', gs.score(X_test, y_test))
-
-    return(alg,gs.score(X_test, y_test))
-
-def bestregressor(X_train, y_train,X_test, y_test,gridsearch=True):
-    """Finds the best pipeline for the data provided within regressors, using gridsearch or randomizedsearch""" 
-    #TODO: define what's test, validation, train
-    # Initialize the estimators
-    reg1=ExtraTreesRegressor(random_state=42)
-    reg2 = RandomForestRegressor(random_state=42)
-    reg3=XGBRegressor(random_state=42,gamma=0,scale_pos_weight=1,validation_fraction=0.1)
-    reg4= MLPRegressor(validation_fraction=0.1, n_iter_no_change=10, max_iter=200, tol=0.001)
-    
-    #Algorithm settings
-    settings1={'regressor__n_estimators':[50,100,150,200],'regressor__max_depth':[3,4], 'regressor__min_samples_split':[3, 5, 7],'regressor':[reg1]}
-    settings2 = {'regressor__n_estimators':[40,50,70,80,100], 'regressor__max_depth':[3,4], 'regressor__min_samples_split':[3, 5, 7],'regressor':[reg2]}
-    settings3 = {'regressor__max_depth':[2,3,5], 'regressor__min_child_weight':[2,3,5],'regressor__n_estimators':[50,100,150],\
-        'regressor__learning_rate':[0.5,0.2,0.1,0.05],'regressor':[reg3]}
-    settings4 = {'regressor__activation':['relu','sigmoid'], 'regressor__solver':['lbfgs','adam'], 'regressor__alpha':[1.e-3,1,100],\
-                'regressor__hidden_layer_sizes':[(30,),(40,),(50,),(60,),(70,),(80,),(90,),(100,),(110,),(120,),(50,50),(60,60),(70,70)], 'regressor__warm_start':[True],'regressor':[reg4]}
-
-    #Final pipeline
-    params = [settings1, settings2, settings3,settings4]
-    pipe = Pipeline([\
-        ('scl', StandardScaler()),\
-        ('regressor', reg1)])
-
-    #Model search
-    if gridsearch==True:
-        #With gridsearch:
-        gs=GridSearchCV(pipe, params, cv=3, n_jobs=-1, scoring='neg_mean_absolute_error',verbose=-1).fit(X_train, y_train)
-    else:
-        #With Random search:
-        gs=RandomizedSearchCV(pipe, params, cv=3, n_jobs=-1, scoring='neg_mean_absolute_error',verbose=-1).fit(X_train, y_train)
-    
-    print('Found best estimator')
-    my_params = gs.best_params_
-    print('Best algorithm:\n', gs.best_params_['regressor'])
-    print('Best params:\n', gs.best_params_)
-    alg=gs.best_estimator_
-    print('GridSearchCV accuracy:\n', gs.score(X_test, y_test))
-    print('MSE: {}'.format(np.round(gs.score(X_test, y_test),2)))
-    mape=np.mean(np.abs((y_test - alg.predict(X_test)) / y_test)) * 100
-    print('MAPE: {}'.format(np.round(mape(y_test,alg.predict(X_test)),2)))
-    print('R2: {}'.format(np.round(r2_score(y_test,alg.predict(X_test)),2)))
-    sigma=np.std(y_test-alg.predict(X_test))
-    print('Sigma: {}'.format(sigma))
-    return(alg,gs.score(X_test, y_test))
 
 def train(df,inputs, OUTPUT,task='reg',testsize=0.25,path=os.getcwd(),nome_modello='NA'):
     """Uses best model to train a model"""
