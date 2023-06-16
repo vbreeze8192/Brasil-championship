@@ -86,7 +86,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
     raw['HOUR']=0
     for ii in raw.index:
-        raw['HOUR'].loc[ii]=int(str(raw['Time'].loc[ii])[0:2])
+        raw['HOUR'].iloc[ii]=int(raw['Time'].iloc[ii].hour)
     for col in ['HG','AG','Res']:
         raw[col]=0
 
