@@ -226,9 +226,9 @@ st.write('You selected:', output_choice)
 outputs=['D_in_4iter','D_in_3iter','D_in_2iter','D_in_1iter']
 uploaded_file = st.file_uploader("Carica excel", type=".xlsx")
 
-
-if st.checkbox('Prevedi, idiota'):
-    st.write('Ora ci penso...')
-    final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,outputs,output_choice,day)
+if uploaded_file:
+    if st.checkbox('Prevedi, idiota'):
+        st.write(':leaves:')
+        final_df=doyourstupidthings(uploaded_file,year_col,col_day,anni,anno_val,outputs,output_choice,day)
 
 
