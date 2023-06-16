@@ -114,7 +114,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
                'Quanti programmatori ci vogliono per avvitare una lampadina? Nessuno, è un problema hardware',\
                'Hofinalmenteaggiustatolabarraspaziatrice',\
                'Rebecca funziona!']
-        st.write(barzz[np.random.randint(5))
+        st.write(barzz[np.random.randint(5)])
 
     nn=1
         #in che giorno nella riga
