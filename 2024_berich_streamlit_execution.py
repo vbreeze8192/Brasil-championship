@@ -230,7 +230,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
 
 
-
+        '''
          ##Modello: predizioni per output, con meno input
         input_lower=['AVG_ND_3Y_S',\
         'AVG_ND_N_S',\
@@ -269,6 +269,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.write('___________________________________________')
         if final_df['{}_probB'.format(output_choice)].mean()==1:
             st.write('Mah, ste probabilità so di nuovo tutte uguali. Grazie al c:sparkles:...')
+
+        '''
         df=pd.concat([df,final_df])
         
     return(df)
