@@ -204,10 +204,8 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             'HoA':'Indicazione su Home o Away (0: Away, 1: Home)'}
 
         st.write("\n:robot_face: E mo' predico. :robot_face:")
-        st.write("""I modelli sono allenati in due versioni diverse sui dati delle squadre e della championship. """)
-        if st.checkbox('Mostra gli input'):
-            st.write("""Gli input utilizzati sono """)
-            st.write(dict_input)
+        st.write("""I modelli sono allenati in due versioni diverse sui dati delle squadre e della championship. Gli input utilizzati sono:""")
+        st.write(dict_input)
         ##Modello: predizioni per output
         nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output_choice)))
         dict=pickle.load(open(nome_modello, 'rb'))
