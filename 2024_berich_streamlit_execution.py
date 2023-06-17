@@ -206,6 +206,9 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         final_df=final_df.dropna()
 
         st.title('Risultati per la giornata {}'.format(day_iter))
+        st.subheader("""Prima versione""")
+        st.write('Questi risultati sono ottenuti con modelli allenati su questi input:')
+        st.write(input)
         final_df=final_df.sort_values('{}_probA'.format(output_choice))
         
         st.write('Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
@@ -226,7 +229,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
         st.write('___________________________________________')
         if final_df['{}_probB'.format(output_choice)].mean()==1:
-            st.write('Mah, ste probabilità so tutte uguali. Grazie al c:sparkles:...')
+            st.write('Mah, ste probabilità so tutte uguali a 1. Grazie al c:sparkles:...')
 
 
 
@@ -247,7 +250,9 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         final_df['{}_lp_probB'.format(output_choice)]=alg.predict_proba(final_df[input_lower])[:,1]
         final_df=final_df.dropna()
 
-        st.title('Risultati per la giornata {}'.format(day_iter))
+        st.subheader("""Seconda versione""")
+        st.write('Questi risultati sono ottenuti con modelli allenati su questi input:')
+        st.write(input_lower)
         final_df=final_df.sort_values('{}_lp_probA'.format(output_choice))
         
         st.write('Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
@@ -267,8 +272,10 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
             oth=final_df['{}_lp_probA'.format(output_choice)].iloc[-ii]
             st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
         st.write('___________________________________________')
-        if final_df['{}_probB'.format(output_choice)].mean()==1:
-            st.write('Mah, ste probabilità so di nuovo tutte uguali. Grazie al c:sparkles:...')
+        if final_df['{}_lp_probB'.format(output_choice)].mean()==1:
+            st.write('Mah, ste probabilità so di nuovo tutte uguali a 1. Grazie al c:sparkles:...')
+        else:
+            st.write('Qui almeno abbiamo probabilità diverse')
 
         
         df=pd.concat([df,final_df])
