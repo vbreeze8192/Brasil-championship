@@ -168,7 +168,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
                 #Media di non pari negli ultimi 3 anni per squadra
                 line_team[input[2]]=nd3yrs.loc[squadra].values[0]
             except Exception as e:
-                st.write("Sto avendo problemi con la squadra {}. Forse non c'era nel training, oppure l'hai scritto male!".format(squadra))
+                st.write(":red[Sto avendo problemi con la squadra {}. Forse non c'era nel training, oppure l'hai scritto male!]".format(squadra))
 
             #Media di non pari negli ultimi giorni da D=0 a D=now
             line_team[input[3]]=ndnows[squadra]
@@ -227,6 +227,48 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.write('___________________________________________')
         if final_df['{}_probB'.format(output_choice)].mean()==1:
             st.write('Mah, ste probabilità so tutte uguali. Grazie al c:sparkles:...')
+
+
+
+
+         ##Modello: predizioni per output, con meno input
+        input_lower=['AVG_ND_3Y_S',\
+        'AVG_ND_N_S',\
+        'QTY_ND_3Y_S',\
+        'QTY_ND_N_S',\
+        'HOUR',\
+        'HoA']
+        
+        nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}_lower_input'.format(output_choice)))
+        dict=pickle.load(open(nome_modello, 'rb'))
+        alg=dict['Algorithm']
+        final_df['{}_lp_pred'.format(output_choice)]=alg.predict(final_df[input_lower])
+        final_df['{}_lp_probA'.format(output_choice)]=alg.predict_proba(final_df[input_lower])[:,0]
+        final_df['{}_lp_probB'.format(output_choice)]=alg.predict_proba(final_df[input_lower])[:,1]
+        final_df=final_df.dropna()
+
+        st.title('Risultati per la giornata {}'.format(day_iter))
+        final_df=final_df.sort_values('{}_probA'.format(output_choice))
+        
+        st.write('Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
+        for ii in range(0,7):
+            sq=final_df['SQUADRA'].iloc[ii]
+            pred=final_df['{}_lp_pred'.format(output_choice)].iloc[ii]
+            prob=final_df['{}_lp_probB'.format(output_choice)].iloc[ii]
+            oth=final_df['{}_lp_probA'.format(output_choice)].iloc[ii]
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
+
+        st.write("___________________________________________")
+        st.write('Valutando {}, le squadre con meno probabilità di pareggiare nella giornata {} sono: :sloth:'.format(output_choice,day_iter))
+        for ii in range(0,7):
+            sq=final_df['SQUADRA'].iloc[-ii]
+            pred=final_df['{}_lp_pred'.format(output_choice)].iloc[-ii]
+            prob=final_df['{}_lp_probB'.format(output_choice)].iloc[-ii]
+            oth=final_df['{}_lp_probA'.format(output_choice)].iloc[-ii]
+            st.write('	:soccer: Squadra: **:blue[{}]**, probabilità di pareggio: {} %'.format(sq,np.floor(prob*100)))
+        st.write('___________________________________________')
+        if final_df['{}_probB'.format(output_choice)].mean()==1:
+            st.write('Mah, ste probabilità so di nuovo tutte uguali. Grazie al c:sparkles:...')
         df=pd.concat([df,final_df])
         
     return(df)
