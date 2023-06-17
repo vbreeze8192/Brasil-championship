@@ -194,7 +194,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
 
 
-        st.write("\n:robot_face: It's some kind of magic - Let's do AI! :robot_face:")
+        st.write("\n:robot_face: E mo' predico. :robot_face:")
         
         ##Modello: predizioni per output
         nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output_choice)))
@@ -230,7 +230,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
 
 
-        '''
+        
          ##Modello: predizioni per output, con meno input
         input_lower=['AVG_ND_3Y_S',\
         'AVG_ND_N_S',\
@@ -270,7 +270,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         if final_df['{}_probB'.format(output_choice)].mean()==1:
             st.write('Mah, ste probabilità so di nuovo tutte uguali. Grazie al c:sparkles:...')
 
-        '''
+        
         df=pd.concat([df,final_df])
         
     return(df)
@@ -308,7 +308,7 @@ col_raw=['Country','League','Season','Date','Time','Home','Away','HG','AG','Res'
 
 output_select = st.radio(
     "Su quanti giorni vuoi prevedere la cumulata dei pareggi?",
-    ('1','2','3','4'))
+    ('1','3','4'))
 
 output_choice = 'D_in_{}iter'.format(output_select)
 #'D_in_1iter', 'D_in_2iter', 'D_in_3iter',
