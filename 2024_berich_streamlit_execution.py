@@ -192,10 +192,20 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         st.write('Ecco il dataset su cui faccio previsioni. Ho riempito i valori nulli con 0.')
         download_excel(final_df,'Pre-trained_dataset_Day{}'.format(day))
 
-
+        dict_input={'AVG_D_3Y_CH':'Media di pareggi per championship, calcolata sulle stagioni precedenti',\
+            'AVG_D_N_CH':'Media di pareggi per championship, calcolata sulla stagione attuale',\
+            'AVG_ND_3Y_S':'Media di non-pareggi per squadra, calcolata sulle stagioni precedenti',\
+            'AVG_ND_N_S':'Media di non-pareggi per squadra, calcolata sulla stagione attuale',\
+            'AVG_Dxd_3Y_CH':'Media di pareggi per giornata per championship, calcolata sulle stagioni passate',\
+            'AVG_Dxd_N_CH':'Media di pareggi per giornata per championship, calcolata sulla stagione presente',\
+            'QTY_ND_3Y_S':'Media del periodo massimo per stagione di giornate consecutive senza pareggi per squadra, calcolata sulle stagioni precedenti',\
+            'QTY_ND_N_S':'Quantità di giornate consecutive senza pareggi per squadra sulla stagione attuale',\
+            'HOUR':'Ora della partita',\
+            'HoA':'Indicazione su Home o Away (0: Away, 1: Home)'}
 
         st.write("\n:robot_face: E mo' predico. :robot_face:")
-        
+        st.write("""I modelli sono allenati in due versioni diverse sui dati delle squadre e della championship. Gli input utilizzati sono """)
+        st.write(dict_input)
         ##Modello: predizioni per output
         nome_modello= os.path.join(os.getcwd(), os.path.normpath('Modello_{}'.format(output_choice)))
         dict=pickle.load(open(nome_modello, 'rb'))
