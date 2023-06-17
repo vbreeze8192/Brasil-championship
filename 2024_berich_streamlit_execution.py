@@ -248,7 +248,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
         final_df=final_df.dropna()
 
         st.title('Risultati per la giornata {}'.format(day_iter))
-        final_df=final_df.sort_values('{}_probA'.format(output_choice))
+        final_df=final_df.sort_values('{}_lp_probA'.format(output_choice))
         
         st.write('Valutando {}, nella giornata {} dovresti investire su: :moneybag:'.format(output_choice,day_iter))
         for ii in range(0,7):
