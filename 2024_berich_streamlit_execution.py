@@ -231,7 +231,7 @@ def doyourstupidthings(name,year_col,col_day,anni,anno_val,output_choice,day='NA
 
         st.write("___________________________________________")
         st.write('Valutando {}, le squadre con meno probabilità di pareggiare nella giornata {} sono: :sloth:'.format(output_choice,day_iter))
-        for ii in range(0,7):
+        for ii in range(1,8):
             sq=final_df['SQUADRA'].iloc[-ii]
             pred=final_df['{}_pred'.format(output_choice)].iloc[-ii]
             prob=final_df['{}_probB'.format(output_choice)].iloc[-ii]
